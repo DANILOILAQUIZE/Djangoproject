@@ -1,0 +1,58 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Listado de Proyectos de Construcción</h2>
+
+    <!-- Botón para agregar nuevo proyecto -->
+    <div class="mb-3 text-end">
+        <a href="{% url 'agregarProyecto' %}" class="btn btn-primary">Agregar Nuevo Proyecto</a>
+    </div>
+
+    <!-- Tabla de proyectos -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="tablaProyectos">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Escuela</th>
+                    <th>Nombre</th>
+                    <th>Proveedor</th>
+                    <th>Fecha Inicio</th>
+                    <th>Fecha Fin</th>
+                    <th>Presupuesto ($)</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proyecto in proyectos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ proyecto.escuela.nombre }}</td>
+                        <td>{{ proyecto.nombre }}</td>
+                        <td>{{ proyecto.proveedor.nombre }}</td>
+                        <td>{{ proyecto.fecha_inicio }}</td>
+                        <td>{{ proyecto.fecha_fin }}</td>
+                        <td>${{ proyecto.presupuesto }}</td>
+                        <td>
+                            <a href="{% url 'editarProyecto' proyecto.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminarProyecto' proyecto.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar?');">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaProyectos').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
+
+{% endblock %}

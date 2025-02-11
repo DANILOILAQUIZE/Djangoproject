@@ -1,0 +1,53 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Editar Plazo</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{% url 'actualizarPlazo' plazo.id %}" method="POST" class="p-4 border rounded shadow">
+                {% csrf_token %}
+
+                <input type="hidden" name="id" value="{{ plazo.id }}">
+
+                <!-- Proyecto -->
+                <div class="mb-3">
+                    <label for="proyecto" class="form-label">Proyecto</label>
+                    <select class="form-control" name="proyecto" id="proyecto" required>
+                        {% for proyecto in proyectos %}
+                            <option value="{{ proyecto.id }}" {% if proyecto.id == plazo.proyecto.id %}selected{% endif %}>
+                                {{ proyecto.nombre }} - {{ proyecto.escuela.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Descripción -->
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <input type="text" class="form-control" name="descripcion" id="descripcion" value="{{ plazo.descripcion }}" maxlength="255" required>
+                </div>
+
+                <!-- Fecha Límite -->
+                <div class="mb-3">
+                    <label for="fecha_limite" class="form-label">Fecha Límite</label>
+                    <input type="date" class="form-control" name="fecha_limite" id="fecha_limite" value="{{ plazo.fecha_limite|date:'Y-m-d' }}" required>
+                </div>
+
+                <!-- Completado -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" name="completado" id="completado" {% if plazo.completado %}checked{% endif %}>
+                    <label class="form-check-label" for="completado">¿Completado?</label>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                    <a href="{% url 'listarPlazos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

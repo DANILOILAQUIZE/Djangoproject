@@ -1,0 +1,54 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Editar Proveedor</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{% url 'actualizarProveedor' proveedor.id %}" method="POST" class="p-4 border rounded shadow">
+                {% csrf_token %}
+
+                <input type="hidden" name="id" value="{{ proveedor.id }}">
+
+                <!-- Nombre del proveedor -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Proveedor</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" value="{{ proveedor.nombre }}" maxlength="255" required>
+                </div>
+
+                <!-- Contacto -->
+                <div class="mb-3">
+                    <label for="contacto" class="form-label">Persona de Contacto</label>
+                    <input type="text" class="form-control" name="contacto" id="contacto" value="{{ proveedor.contacto }}" maxlength="255">
+                </div>
+
+                <!-- Teléfono -->
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" id="telefono" value="{{ proveedor.telefono }}" maxlength="15">
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" name="correo" id="correo" value="{{ proveedor.correo }}">
+                </div>
+
+                <!-- Dirección -->
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <textarea class="form-control" name="direccion" id="direccion">{{ proveedor.direccion }}</textarea>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                    <a href="{% url 'listarProveedores' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<br>
+{% endblock %}

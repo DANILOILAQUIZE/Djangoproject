@@ -1,0 +1,61 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">LISTADO DE ESCUELAS</h2>
+
+    <!-- Botón para agregar nueva escuela -->
+    <div class="mb-3 text-end">
+        <a href="{% url 'agregarEscuela' %}" class="btn btn-primary">Agregar Nueva Escuela</a>
+    </div>
+
+    <!-- Tabla de escuelas -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="tablaEscuelas">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Imagen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for escuela in escuelas %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ escuela.nombre }}</td>
+                        <td>{{ escuela.direccion }}</td>
+                        <td>{{ escuela.telefono|default:"No disponible" }}</td>
+                        <td>{{ escuela.correo|default:"No disponible" }}</td>
+                        <td>
+                            {% if escuela.imagen %}
+                                <img src="{{ escuela.imagen.url }}" alt="Imagen Escuela" class="img-fluid" style="max-width: 80px;">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'editarEscuela' escuela.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminarEscuela' escuela.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿ESTÁS SEGURO DE ELIMINAR?');">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaEscuelas').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
+{% endblock %}

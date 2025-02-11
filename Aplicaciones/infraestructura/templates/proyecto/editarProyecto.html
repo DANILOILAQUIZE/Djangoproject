@@ -1,0 +1,75 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Editar Proyecto de Construcción</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{% url 'actualizarProyecto' proyecto.id %}" method="POST" class="p-4 border rounded shadow">
+                {% csrf_token %}
+
+                <input type="hidden" name="id" value="{{ proyecto.id }}">
+
+                <!-- Escuela -->
+                <div class="mb-3">
+                    <label for="escuela" class="form-label">Escuela</label>
+                    <select class="form-control" name="escuela" id="escuela" required>
+                        {% for escuela in escuelas %}
+                            <option value="{{ escuela.id }}" {% if escuela.id == proyecto.escuela.id %}selected{% endif %}>
+                                {{ escuela.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Nombre del Proyecto -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre del Proyecto</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" value="{{ proyecto.nombre }}" maxlength="255" required>
+                </div>
+
+                <!-- Descripción -->
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <textarea class="form-control" name="descripcion" id="descripcion" required>{{ proyecto.descripcion }}</textarea>
+                </div>
+
+                <!-- Proveedor -->
+                <div class="mb-3">
+                    <label for="proveedor" class="form-label">Proveedor</label>
+                    <select class="form-control" name="proveedor" id="proveedor" required>
+                        {% for proveedor in proveedores %}
+                            <option value="{{ proveedor.id }}" {% if proveedor.id == proyecto.proveedor.id %}selected{% endif %}>
+                                {{ proveedor.nombre }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Fechas y presupuesto -->
+                <div class="mb-3">
+                    <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                    <input type="date" class="form-control" name="fecha_inicio" id="fecha_inicio" value="{{ proyecto.fecha_inicio|date:'Y-m-d' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="fecha_fin" class="form-label">Fecha de Fin</label>
+                    <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{ proyecto.fecha_fin|date:'Y-m-d' }}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label for="presupuesto" class="form-label">Presupuesto ($)</label>
+                    <input type="text" class="form-control" name="presupuesto" id="presupuesto" value="{{ proyecto.presupuesto }}" step="0.01" required>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-warning">Guardar Cambios</button>
+                    <a href="{% url 'listarProyectos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

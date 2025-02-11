@@ -1,0 +1,60 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Listado de Plazos</h2>
+
+    <!-- Botón para agregar nuevo plazo -->
+    <div class="mb-3 text-end">
+        <a href="{% url 'agregarPlazo' %}" class="btn btn-primary">Agregar Nuevo Plazo</a>
+    </div>
+
+    <!-- Tabla de plazos -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="tablaPlazos">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Proyecto</th>
+                    <th>Descripción</th>
+                    <th>Fecha Límite</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plazo in plazos %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ plazo.proyecto.nombre }} - {{ plazo.proyecto.escuela.nombre }}</td>
+                        <td>{{ plazo.descripcion }}</td>
+                        <td>{{ plazo.fecha_limite }}</td>
+                        <td>
+                            {% if plazo.completado %}
+                                <span class="badge bg-success">Completado</span>
+                            {% else %}
+                                <span class="badge bg-danger">Pendiente</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'editarPlazo' plazo.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminarPlazo' plazo.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar?');">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaPlazos').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
+
+{% endblock %}

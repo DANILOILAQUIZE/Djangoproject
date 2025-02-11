@@ -1,0 +1,149 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP ESCUELA</title>
+    <!-- DATATABLE -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <link href="{% static 'DataTables/datatables.min.css' %}" rel="stylesheet">
+    <script src="{% static 'DataTables/datatables.min.js' %}"></script>
+    <!-- validacion -->
+    <script src="{% static 'js/jquery.validate.min.js' %}"></script>
+    <script src="{% static 'js/jquery.validate.js' %}"></script>
+     <!-- CSS FILES -->        
+     <link rel="preconnect" href="https://fonts.googleapis.com">
+     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+     <link href="{% static 'plantilla/css/bootstrap.min.css' %}" rel="stylesheet">
+     <link href="{% static 'plantilla/css/bootstrap-icons.css' %}" rel="stylesheet">
+     <link href="{% static 'plantilla/css/templatemo-topic-listing.css' %}" rel="stylesheet">  
+    <!-- PLUGIN FILEINPUT -->
+    <script src="{% static 'js/fileinput.min.js' %}"></script>
+    <link href="{% static 'css/fileinput.min.css' %}" rel="stylesheet">
+
+     <!-- mensajes elegantes -->
+    <link rel="stylesheet" href="{% static 'css/iziToast.css' %}">
+    <script src="{% static 'js/iziToast.min.js' %}"></script>
+
+    
+</head>
+<body id="top">
+    <main>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" href="/">
+                    <i class="bi-back"></i>
+                    <span>U E A</span>
+                </a>
+
+                <div class="d-lg-none ms-auto me-4">
+                    <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-5 ">
+                        
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="{% url 'listarEscuelas' %}">Escuelas</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="{% url 'listarProveedores' %}">Proveedor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="{% url 'listarProyectos' %}">Construcción</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="{% url 'listarPlazos' %}">Plazo</a>
+                        </li>
+                        
+                    </ul>
+                    <div class="d-none d-lg-block">
+                        <a href="#top" class="navbar-icon bi-person smoothscroll"></a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </main>
+
+    <div class="container">
+        {% block contenido %}
+        <!-- Aquí se insertará el contenido de las plantillas que extiendan esta -->
+        {% endblock %}
+    </div>  
+
+    <footer class="site-footer section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-6 mb-4 pb-2">
+                    <a class="navbar-brand mb-2" href="">
+                        <i class="bi-back"></i>
+                        <span>U E A</span>
+                    </a>
+                </div>
+                
+                
+                <div class="col-lg-3 col-md-4 col-12 mt-4 mt-lg-0 ms-auto">
+                    
+                    <p class="copyright-text mt-lg-5 mt-4">Copyright © 2025.
+                    <br><p>Desarrollado por:Darwin Ilaquize</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+<!--VERIFICAR LOS EMNSAJES DE CONFIRMACIÓN-->
+{% if messages %}
+{% for mensajeConfirmación in messages %}
+    <script>
+        if("{{mensajeConfirmación.tags}}"=="success"){
+
+        }
+        //alert(":)-{{mensajeConfirmación}}");
+    iziToast.success({
+        title: 'CONFIRMACIÓN--',
+        message: '{{mensajeConfirmación}}',
+        position:'topRight'
+    });
+
+    </script>
+{% endfor %}
+
+{% endif %}
+
+
+<style>
+    label.error{
+        color: rgb(53, 132, 146);
+        font-weight: bold;
+       
+        border-radius: 10px;
+        padding: 5px;
+        margin-top: 5px;
+    }
+    input.error{
+        border: 1px solid rgb(29, 128, 137);
+    }
+</style>
+    <!-- JAVASCRIPT FILES -->
+    <script src="{% static 'plantilla/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'plantilla/js/jquery.sticky.js' %}"></script>
+    <script src="{% static 'plantilla/js/click-scroll.js' %}"></script>
+    <script src="{% static 'plantilla/js/custom.js' %}"></script>
+
+    <script src="{% static 'js/dataTables.buttons.js' %}"></script>
+    <script src="{% static 'js/buttons.dataTables.js' %}"></script>
+    <script src="{% static 'js/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+  <script src="{% static 'js/es.min.js' %}"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,113 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Agregar Nueva Escuela</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form id="frm_escuela" action="{% url 'guardarEscuela' %}" method="POST" enctype="multipart/form-data" class="p-4 border rounded shadow">
+                {% csrf_token %}
+
+                <!-- Nombre de la escuela -->
+                <div class="mb-3">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" class="form-control" name="nombre" id="nombre" maxlength="255" required>
+                </div>
+
+                <!-- Dirección -->
+                <div class="mb-3">
+                    <label for="direccion" class="form-label">Dirección</label>
+                    <textarea class="form-control" name="direccion" id="direccion" required></textarea>
+                </div>
+
+                <!-- Teléfono -->
+                <div class="mb-3">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" class="form-control" name="telefono" id="telefono" pattern="^\d{7,15}$" title="Ingrese un número de teléfono válido (7-15 dígitos)">
+                </div>
+
+                <!-- Correo Electrónico -->
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" name="correo" id="correo">
+                </div>
+
+                <!-- Subida de Imagen -->
+                <div class="mb-3">
+                    <label for="imagen" class="form-label">Subir Imagen</label>
+                    <input type="file" class="form-control" name="imagen" id="imagen">
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Guardar Escuela</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // Inicialización del plugin fileinput
+        $("#imagen").fileinput({
+            languaje: "es",
+            allowedFileExtensions: ["jpg", "jpeg", "png", "gif"],
+            showCaption: false,
+            dropZoneEnabled: true,
+            showClose: false,
+        });
+
+        // Validación del formulario
+        $("#frm_escuela").validate({
+            rules: {
+                nombre: {
+                    required: true,
+                    maxlength: 255
+                },
+                direccion: {
+                    required: true
+                },
+                telefono: {
+                    required:true,
+                    digits: true,
+                    minlength: 7,
+                    maxlength: 15
+                },
+                correo: {
+                    required: true,
+                    email: true
+                },
+                imagen: {
+                    required: false,
+                    
+                }
+            },
+            messages: {
+                nombre: {
+                    required: "Por favor ingrese el nombre de la escuela.",
+                    maxlength: "El nombre no debe exceder los 255 caracteres."
+                },
+                direccion: {
+                    required: "Por favor ingrese la dirección de la escuela."
+                },
+                telefono: {
+                    digits: "Solo se permiten números.",
+                    minlength: "El teléfono debe tener al menos 7 dígitos.",
+                    maxlength: "El teléfono no debe exceder los 10 dígitos."
+                },
+                correo: {
+                    required: "Por favor ingrese un correo electrónico.",
+                    email: "Ingrese un correo electrónico válido."
+                },
+                imagen: {
+                    required: "Por favor suba una imagen si es necesario."
+                }
+            }
+        });
+    });
+</script>
+
+<br><br>
+{% endblock %}

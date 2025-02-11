@@ -1,0 +1,88 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Agregar Plazo</h2>
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <form action="{% url 'guardarPlazo' %}" method="POST" class="p-4 border rounded shadow">
+                {% csrf_token %}
+
+                <!-- Proyecto -->
+                <div class="mb-3">
+                    <label for="proyecto" class="form-label">Proyecto</label>
+                    <select class="form-control" name="proyecto" id="proyecto" required>
+                        <option value="" disabled selected>Seleccione un proyecto</option>
+                        {% for proyecto in proyectos %}
+                            <option value="{{ proyecto.id }}">{{ proyecto.nombre }} - {{ proyecto.escuela.nombre }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Descripción -->
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <input type="text" class="form-control" name="descripcion" id="descripcion" maxlength="255" required>
+                </div>
+
+                <!-- Fecha Límite -->
+                <div class="mb-3">
+                    <label for="fecha_limite" class="form-label">Fecha Límite</label>
+                    <input type="date" class="form-control" name="fecha_limite" id="fecha_limite" required>
+                </div>
+
+                <!-- Completado -->
+                <div class="mb-3 form-check">
+                    <input type="checkbox" class="form-check-input" name="completado" id="completado">
+                    <label class="form-check-label" for="completado">¿Completado?</label>
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-success">Guardar Plazo</button>
+                    <a href="{% url 'listarPlazos' %}" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        // Validación del formulario
+        $("form").validate({
+            rules: {
+                proyecto: {
+                    required: true
+                },
+                descripcion: {
+                    required: true,
+                    maxlength: 255
+                },
+                fecha_limite: {
+                    required: true
+                }
+            },
+            messages: {
+                proyecto: {
+                    required: "Seleccione un proyecto."
+                },
+                descripcion: {
+                    required: "Ingrese una descripción.",
+                    maxlength: "La descripción no debe exceder los 255 caracteres."
+                },
+                fecha_limite: {
+                    required: "Ingrese la fecha límite."
+                }
+            },
+            // Si se requiere agregar más ajustes como mensajes personalizados o estilos
+            errorPlacement: function (error, element) {
+                error.appendTo(element.closest('.mb-3'));
+            }
+        });
+    });
+</script>
+
+{% endblock %}

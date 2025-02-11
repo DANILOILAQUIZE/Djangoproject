@@ -1,0 +1,56 @@
+{% extends "plantilla.html" %}
+
+{% block contenido %}
+<br><br><br>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Listado de Proveedores</h2>
+
+    <!-- Botón para agregar nuevo proveedor -->
+    <div class="mb-3 text-end">
+        <a href="{% url 'agregarProveedor' %}" class="btn btn-primary">Agregar Nuevo Proveedor</a>
+    </div>
+
+    <!-- Tabla de proveedores -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover text-center" id="tablaProveedores">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Correo</th>
+                    <th>Dirección</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for proveedor in proveedores %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ proveedor.nombre }}</td>
+                        <td>{{ proveedor.contacto|default:"-" }}</td>
+                        <td>{{ proveedor.telefono|default:"-" }}</td>
+                        <td>{{ proveedor.correo|default:"-" }}</td>
+                        <td>{{ proveedor.direccion|default:"-" }}</td>
+                        <td>
+                            <a href="{% url 'editarProveedor' proveedor.id %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminarProveedor' proveedor.id %}" class="btn btn-danger btn-sm" onclick="return confirm('¿ESTÁS SEGURO DE ELIMINAR?');">Eliminar</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#tablaProveedores').DataTable({
+            dom: 'Bfrtip',
+            buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
+        });
+    });
+</script>
+
+{% endblock %}
